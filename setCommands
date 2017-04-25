@@ -2,67 +2,67 @@ set interface ge-0/0/0 unit 0 family inet address 10.210.14.131/26
 set interface lt-0/0/0 unit 11 family inet address 172.20.77.1/30
 set routing-instances vSRX-1 instance-type  virtual-router
 set routing-instances vSRX-1 interface lt-0/0/0.11
-set protocols OSPF area 0.0.0.0 interface lt-0/0/0.11
+set protocols ospf area 0.0.0.0 interface lt-0/0/0.11
 set interface lt-0/0/0 unit 11 family inet6 address fdaa:dead:beef:1::0/127
 set routing-instances vSRX-1 interface lt-0/0/0.11
-set protocols OSPF3 area 0.0.0.0 interface lt-0/0/0.11
+set protocols ospf3 area 0.0.0.0 interface lt-0/0/0.11
 set interface lt-0/0/0 unit 12 family inet address 172.20.66.1/30
 set routing-instances vSRX-1 interface lt-0/0/0.12
-set protocols OSPF area 0.0.0.0 interface lt-0/0/0.12
+set protocols ospf area 0.0.0.0 interface lt-0/0/0.12
 set interface lt-0/0/0 unit 12 family inet6 address fdaa:dead:beef:2::0/127
 set routing-instances vSRX-1 interface lt-0/0/0.12
-set protocols OSPF3 area 0.0.0.0 interface lt-0/0/0.12
+set protocols ospf3 area 0.0.0.0 interface lt-0/0/0.12
 set interface lt-0/0/0 unit 13 family inet address 172.18.1.2/30
 set routing-instances vSRX-1 interface lt-0/0/0.13
 set routing-options static route 172.18.1.0/30 next-hop 172.18.1.1
 set interface lt-0/0/0 unit 14 family inet address 172.20.101.1/24
 set routing-instances vSRX-1 interface lt-0/0/0.14
-set protocols OSPF area 0.0.0.0 interface lt-0/0/0.14
+set protocols ospf area 0.0.0.0 interface lt-0/0/0.14
 set interface lo0 unit 1 family inet address 192.168.1.1/32
 set routing-instances vSRX-1 interface lo0.1
-set protocols OSPF area 0.0.0.0 interface lo0.1 passive
+set protocols ospf area 0.0.0.0 interface lo0.1 passive
 set interface lo0 unit 1 family inet6 address fdaa:dead:beef:9::1/128
 set routing-instances vSRX-1 interface lo0.1
-set protocols OSPF3 area 0.0.0.0 interface lo0.1 passive
+set protocols ospf3 area 0.0.0.0 interface lo0.1 passive
 set interface lt-0/0/0 unit 21 family inet address 172.20.77.2/30
 set routing-instances vSRX-2 instance-type  virtual-router
 set routing-instances vSRX-2 interface lt-0/0/0.21
-set protocols OSPF area 0.0.0.0 interface lt-0/0/0.21
+set protocols ospf area 0.0.0.0 interface lt-0/0/0.21
 set interface lt-0/0/0 unit 21 family inet6 address fdaa:dead:beef:1::1/127
 set routing-instances vSRX-2 interface lt-0/0/0.21
-set protocols OSPF3 area 0.0.0.0 interface lt-0/0/0.21
+set protocols ospf3 area 0.0.0.0 interface lt-0/0/0.21
 set interface lt-0/0/0 unit 22 family inet address 172.20.66.2/30
 set routing-instances vSRX-2 interface lt-0/0/0.22
-set protocols OSPF area 0.0.0.0 interface lt-0/0/0.22
+set protocols ospf area 0.0.0.0 interface lt-0/0/0.22
 set interface lt-0/0/0 unit 22 family inet6 address fdaa:dead:beef:2::1/127
 set routing-instances vSRX-2 interface lt-0/0/0.22
-set protocols OSPF3 area 0.0.0.0 interface lt-0/0/0.22
+set protocols ospf3 area 0.0.0.0 interface lt-0/0/0.22
 set interface lt-0/0/0 unit 23 family inet address 172.18.2.2/30
 set routing-instances vSRX-2 interface lt-0/0/0.23
 set routing-options static route 172.18.2.0/30 next-hop 172.18.2.1
 set interface lt-0/0/0 unit 24 family inet address 172.20.102.1/24
 set routing-instances vSRX-2 interface lt-0/0/0.24
-set protocols OSPF area 0.0.0.0 interface lt-0/0/0.24
-set interface lo0 unit 1 family inet address 192.168.2.1/32
-set routing-instances vSRX-2 interface lo0.1
-set protocols OSPF area 0.0.0.0 interface lo0.1 passive
-set interface lo0 unit 1 family inet6 address fdaa:dead:beef:9::2/128
-set routing-instances vSRX-2 interface lo0.1
-set protocols OSPF3 area 0.0.0.0 interface lo0.1 passive
+set protocols ospf area 0.0.0.0 interface lt-0/0/0.24
+set interface lo0 unit 2 family inet address 192.168.2.1/32
+set routing-instances vSRX-2 interface lo0.2
+set protocols ospf area 0.0.0.0 interface lo0.2 passive
+set interface lo0 unit 2 family inet6 address fdaa:dead:beef:9::2/128
+set routing-instances vSRX-2 interface lo0.2
+set protocols ospf3 area 0.0.0.0 interface lo0.2 passive
 set interface lt-0/0/0 unit 101 family inet address 172.20.101.10/24
 set routing-instances vr101 instance-type  virtual-router
 set routing-instances vr101 interface lt-0/0/0.101
-set protocols OSPF area 0.0.0.0 interface lt-0/0/0.101
+set protocols ospf area 0.0.0.0 interface lt-0/0/0.101
 set interface lo0 unit 101 family inet address 192.168.1.2/32
 set routing-instances vr101 interface lo0.101
-set protocols OSPF area 0.0.0.0 interface lo0.101 passive
+set protocols ospf area 0.0.0.0 interface lo0.101 passive
 set interface lt-0/0/0 unit 201 family inet address 172.20.102.10/24
 set routing-instances vr102 instance-type  virtual-router
 set routing-instances vr102 interface lt-0/0/0.201
-set protocols OSPF area 0.0.0.0 interface lt-0/0/0.201
+set protocols ospf area 0.0.0.0 interface lt-0/0/0.201
 set interface lo0 unit 201 family inet address 192.168.1.2/32
 set routing-instances vr102 interface lo0.201
-set protocols OSPF area 0.0.0.0 interface lo0.201 passive
+set protocols ospf area 0.0.0.0 interface lo0.201 passive
 set interface lt-0/0/0 unit 33 family inet address 172.18.1.1/30
 set routing-instances vrinternet instance-type  virtual-router
 set routing-instances vrinternet interface lt-0/0/0.33
