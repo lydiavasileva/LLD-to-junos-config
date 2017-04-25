@@ -1,21 +1,17 @@
 import csv
-with open('lld.csv', 'r') as csvfile:
+with open('IJOS-Alternative-Virtual-SRX-A1.csv', 'r') as csvfile:
 	reader = csv.DictReader(csvfile)
-	deviceList=[]	
 	for row in reader:
-		if row['Main Router Virtual Router'] != '':
-			typeList =[]
-			Devices = {row['Main Router Virtual Router']:typeList}
-			if row['Instance-Type'] != '':
-				interfaceList =[]
-				DeviceType = {row['Instance-Type']:interfaceList}
-				typeList.append(DeviceType)
+		if row['Interface'] != '' and row['ip address'] != '':
+			print('set interface ' + row['Interface'] + ' unit ' + row['Unit'] + ' family ' + row['Family'] + ' address ' + row['ip address']+row['Mask'])
+		if row['Routing-Instance'] != '' and row['Main Router Virtual Router'] != '':
+			print('set routing-instances ' + row['Main Router Virtual Router'] + ' instance-type ' + row['Routing-Instance'])
+		if row['Routing-Instance'] == ' virtual-router':
+			if row['Main Router Virtual Router'] != '':
+				deviceName = row['Main Router Virtual Router']
+				print('set routing-instances ' + deviceName + ' interface ' + row['Interface'] + '.' + row['Unit'])
 			else:
-				interfaceList =[]
-				DeviceType = {'Null':interfaceList}
-				typeList.append(DeviceType)
-			deviceList.append(Devices)
-
+				print('set routing-instances ' + deviceName + ' interface ' + row['Interface'] + '.' + row['Unit'])
+		
 		#print(row['Main Router Virtual Router'],row['Instance-Type'], row['Interface'], row['Unit'], row['ip address'])
 
-	print (deviceList)
