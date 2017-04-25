@@ -1,6 +1,6 @@
-Physical Router,Main Router Virtual Router,Routing-Instance,Interface,Unit,ip address,Mask,Family,Encap-sulation,Peer,,To VR,Routing,,,,,,Firewall Filter,CoS,Comments
-,,,,,,,,,Interface,Unit,,Dynamic,,,Static,,Policy,,,
-,,,,,,,,,,,,Protocol,Area/AS,Passive,Network,Next-hop,,,,
+Physical Router,Main Router Virtual Router,Routing-Instance,Interface,Unit,ip address,Mask,Family,Encap-sulation,Peer Interface,Peer Unit,To VR,Routing Protocol,Area/AS/Level,Status,Static Network,Static Next-Hop,Policy,Firewall Filter,CoS,Comments
+,,,,,,,,,,,,,,,,,,,,
+,,,,,,,,,,,,,,,,,,,,
 SRXA-1,Main Router,,ge-0/0/0,0,10.210.14.131,/26,inet,ethernet,,,,N/A,N/A,N/A,,,,,,Managment Interface
 ,,,ge-0/0/1,0,,,,ethernet,,,,,,,,,,,,
 ,,,ge-0/0/2,0,,,,ethernet,,,,,,,,,,,,
