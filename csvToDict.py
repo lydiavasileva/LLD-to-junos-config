@@ -14,9 +14,9 @@ with open('IJOS-Alternative-Virtual-SRX-A1.csv', 'r') as csvfile:
 			else:
 				output.write('set routing-instances ' + deviceName + ' interface ' + row['Interface'] + '.' + row['Unit'] +'\n')
 		if row['Routing Protocol'] != '' and  row['Routing Protocol'] != 'N/A' and row['Status'] == 'Passive':
-			output.write('set protocols ' + row['Routing Protocol'] + ' area ' + row['Area/AS/Level'] + ' interface ' + row['Interface'] + '.' + row['Unit'] + ' passive' +'\n')
+			output.write('set routing-instances' + deviceName + ' protocols ' + row['Routing Protocol'] + ' area ' + row['Area/AS/Level'] + ' interface ' + row['Interface'] + '.' + row['Unit'] + ' passive' +'\n')
 		elif row['Routing Protocol'] != '' and  row['Routing Protocol'] != 'N/A' and row['Status'] != 'Passive':
-			output.write('set protocols ' + row['Routing Protocol'] + ' area ' + row['Area/AS/Level'] + ' interface ' + row['Interface'] + '.' + row['Unit'] +'\n')
+			output.write('set routing-instances' + deviceName + ' protocols ' + row['Routing Protocol'] + ' area ' + row['Area/AS/Level'] + ' interface ' + row['Interface'] + '.' + row['Unit'] +'\n')
 		if row['Static Network'] != '' and row['Static Network'] != 'N/A':
 			output.write('set routing-options static route ' + row['Static Network'] + ' next-hop ' + row['Static Next-Hop'] +'\n')
 		#output.write(row['Main Router Virtual Router'],row['Instance-Type'], row['Interface'], row['Unit'], row['ip address'])
