@@ -21,4 +21,4 @@ with open('IJOS-Alternative-Virtual-SRX-A1.csv', 'r') as csvfile:
 			output.write('set routing-options static route ' + row['Static Network'] + ' next-hop ' + row['Static Next-Hop'] +'\n')
 		#output.write(row['Main Router Virtual Router'],row['Instance-Type'], row['Interface'], row['Unit'], row['ip address'])
 
-# 
+#
