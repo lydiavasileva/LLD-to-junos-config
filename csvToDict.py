@@ -1,7 +1,7 @@
 import csv
 def main():
 	output = open('setCommands','w')
-	with open('IJOS-Alternative-Virtual-SRX-A1.csv', 'r') as csvfile:
+	with open('IJOS-Alternative-Virtual-SRX-A2.csv', 'r') as csvfile:
 		reader = csv.DictReader(csvfile)
 		output.write('delete security policies' + '\n')
 		output.write('set security forwarding-options family mpls mode packet-based' + '\n')
@@ -50,6 +50,9 @@ def setRoutingPolicies(row,output):
 		output.write('set policy-options policy-statement ' + row['Policy'] + ' term ' + row['Term'] + ' then ' + row['Action'] +'\n')
 		output.write('set routing-instances ' + row['Main Router Virtual Router'] + ' protocols ' + row[' Policy-export'] + ' export ' + row['Policy'] +'\n')
 	elif row['Policy'] != '' and row['Match-Address'] != '':
-
+		output.write('set policy-options policy-statement ' + row['Policy'] + ' term ' + row['Term'] + ' from ' + row['Condition'] + ' ' + row['Match-Address'] + ' ' + row['Type'] + '\n')
+		output.write('set policy-options policy-statement ' + row['Policy'] + ' term ' + row['Term'] + ' then ' + row['Action'] +'\n')
+		output.write('set routing-instances ' + row['Main Router Virtual Router'] + ' protocols ' + row[' Policy-export'] + ' export ' + row['Policy'] +'\n')
+	else:
 		pass
 main()

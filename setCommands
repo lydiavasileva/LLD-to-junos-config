@@ -21,13 +21,34 @@ set interface lt-0/0/0 unit 13 encapsulation ethernet peer-unit 33 family inet a
 set routing-instances vSRX-1 instance-type virtual-router
 set routing-instances vSRX-1 interface lt-0/0/0.13
 set routing-instances vSRX-1 routing-options static route 172.31.15.0/30 next-hop 172.18.1.1
-set policy-options policy-statement exportStatic term 1 from protocol static
-set policy-options policy-statement exportStatic term 1 then accept
-set routing-instances vSRX-1 protocols ospf export exportStatic
+set policy-options policy-statement export-static-vsrx-1 term 1 from route-filter 172.31.15.0/30 exact
+set policy-options policy-statement export-static-vsrx-1 term 1 then accept
+set routing-instances vSRX-1 protocols ospf export export-static-vsrx-1
 set interface lt-0/0/0 unit 14 encapsulation ethernet peer-unit 101 family inet address 172.20.101.1/24
 set routing-instances vSRX-1 instance-type virtual-router
 set routing-instances vSRX-1 interface lt-0/0/0.14
-set routing-instances vSRX-1 protocols ospf area 0.0.0.0 interface lt-0/0/0.14
+set routing-instances vSRX-1 routing-options static route 192.168.1.2/32 next-hop 172.20.101.10
+set interface lt-0/0/0 unit 14 encapsulation ethernet peer-unit 101 family inet address 172.20.101.1/24
+set routing-instances vSRX-1 instance-type virtual-router
+set routing-instances vSRX-1 interface lt-0/0/0.14
+set routing-instances vSRX-1 routing-options static route 172.21.0.0/24 next-hop 172.20.101.10
+set policy-options policy-statement export-static-vsrx-1 term 2 from route-filter 172.21.0.0/24 exact
+set policy-options policy-statement export-static-vsrx-1 term 2 then accept
+set routing-instances vSRX-1 protocols ospf export export-static-vsrx-1
+set interface lt-0/0/0 unit 14 encapsulation ethernet peer-unit 101 family inet address 172.20.101.1/24
+set routing-instances vSRX-1 instance-type virtual-router
+set routing-instances vSRX-1 interface lt-0/0/0.14
+set routing-instances vSRX-1 routing-options static route 172.21.1.0/24 next-hop 172.20.101.10
+set policy-options policy-statement export-static-vsrx-1 term 2 from route-filter 172.21.1.0/24 exact
+set policy-options policy-statement export-static-vsrx-1 term 2 then accept
+set routing-instances vSRX-1 protocols ospf export export-static-vsrx-1
+set interface lt-0/0/0 unit 14 encapsulation ethernet peer-unit 101 family inet address 172.20.101.1/24
+set routing-instances vSRX-1 instance-type virtual-router
+set routing-instances vSRX-1 interface lt-0/0/0.14
+set routing-instances vSRX-1 routing-options static route 172.21.2.0/24 next-hop 172.20.101.10
+set policy-options policy-statement export-static-vsrx-1 term 2 from route-filter 172.21.2.0/24 exact
+set policy-options policy-statement export-static-vsrx-1 term 2 then accept
+set routing-instances vSRX-1 protocols ospf export export-static-vsrx-1
 set interface lo0 unit 1 family inet address 192.168.1.1/32
 set routing-instances vSRX-1 instance-type virtual-router
 set routing-instances vSRX-1 interface lo0.1
@@ -56,10 +77,10 @@ set interface lt-0/0/0 unit 23 encapsulation ethernet peer-unit 43 family inet a
 set routing-instances vSRX-2 instance-type virtual-router
 set routing-instances vSRX-2 interface lt-0/0/0.23
 set routing-instances vSRX-2 routing-options static route 172.31.15.0/30 next-hop 172.18.2.1
-set policy-options policy-statement exportStatic term 1 from protocol static
-set policy-options policy-statement exportStatic term 1 then accept
-set routing-instances vSRX-2 protocols ospf export exportStatic
-set interface lt-0/0/0 unit 24 encapsulation ethernet peer-unit 201 family inet address 172.20.102.1/24
+set policy-options policy-statement export-static-vsrx-2 term 1 from route-filter 172.31.15.0/30 exact
+set policy-options policy-statement export-static-vsrx-2 term 1 then accept
+set routing-instances vSRX-2 protocols ospf export export-static-vsrx-2
+set interface lt-0/0/0 unit 24 encapsulation ethernet peer-unit 102 family inet address 172.20.102.1/24
 set routing-instances vSRX-2 instance-type virtual-router
 set routing-instances vSRX-2 interface lt-0/0/0.24
 set routing-instances vSRX-2 protocols ospf area 0.0.0.0 interface lt-0/0/0.24
@@ -74,23 +95,38 @@ set routing-instances vSRX-2 protocols ospf3 area 0.0.0.0 interface lo0.2 passiv
 set interface lt-0/0/0 unit 101 encapsulation ethernet peer-unit 14 family inet address 172.20.101.10/24
 set routing-instances vr101 instance-type virtual-router
 set routing-instances vr101 interface lt-0/0/0.101
-set routing-instances vr101 protocols ospf area 0.0.0.0 interface lt-0/0/0.101
+set routing-instances vr101 routing-options static route 0.0.0.0/0 next-hop 172.20.101.1
 set interface lo0 unit 101 family inet address 192.168.1.10/32
 set routing-instances vr101 instance-type virtual-router
 set routing-instances vr101 interface lo0.101
-set routing-instances vr101 protocols ospf area 0.0.0.0 interface lo0.101 passive
-set interface lt-0/0/0 unit 201 encapsulation ethernet peer-unit 24 family inet address 172.20.102.10/24
+set interface lt-0/0/0 unit 200 encapsulation ethernet peer-unit 203 family inet address 172.21.0.1/24
+set routing-instances vr101 instance-type virtual-router
+set routing-instances vr101 interface lt-0/0/0.200
+set routing-instances vr101 routing-options static route 192.168.200.2 next-hop 172.21.0.2
+set interface lt-0/0/0 unit 201 encapsulation ethernet peer-unit 204 family inet address 172.21.1.1/24
+set routing-instances vr101 instance-type virtual-router
+set routing-instances vr101 interface lt-0/0/0.201
+set routing-instances vr101 routing-options static route 192.168.200.2 next-hop 172.21.1.2
+set interface lt-0/0/0 unit 202 encapsulation ethernet peer-unit 205 family inet address 172.21.2.1/24
+set routing-instances vr101 instance-type virtual-router
+set routing-instances vr101 interface lt-0/0/0.202
+set routing-instances vr101 routing-options static route 192.168.200.2 next-hop 172.21.2.2
+set interface lt-0/0/0 unit 102 encapsulation ethernet peer-unit 24 family inet address 172.20.102.10/24
 set routing-instances vr102 instance-type virtual-router
-set routing-instances vr102 interface lt-0/0/0.201
-set routing-instances vr102 protocols ospf area 0.0.0.0 interface lt-0/0/0.201
-set interface lo0 unit 201 family inet address 192.168.2.10/32
+set routing-instances vr102 interface lt-0/0/0.102
+set routing-instances vr102 protocols ospf area 0.0.0.0 interface lt-0/0/0.102
+set interface lo0 unit 102 family inet address 192.168.2.10/32
 set routing-instances vr102 instance-type virtual-router
-set routing-instances vr102 interface lo0.201
-set routing-instances vr102 protocols ospf area 0.0.0.0 interface lo0.201 passive
+set routing-instances vr102 interface lo0.102
+set routing-instances vr102 protocols ospf area 0.0.0.0 interface lo0.102 passive
 set interface lt-0/0/0 unit 33 encapsulation ethernet peer-unit 13 family inet address 172.18.1.1/30
 set routing-instances vrinternet instance-type virtual-router
 set routing-instances vrinternet interface lt-0/0/0.33
 set routing-instances vrinternet routing-options static route 172.20.101.0/24 next-hop 172.18.1.2
+set interface lt-0/0/0 unit 33 encapsulation ethernet peer-unit 13 family inet address 172.18.1.1/30
+set routing-instances vrinternet instance-type virtual-router
+set routing-instances vrinternet interface lt-0/0/0.33
+set routing-instances vrinternet routing-options static route 172.21.0.0/22 next-hop 172.18.1.2
 set interface lt-0/0/0 unit 43 encapsulation ethernet peer-unit 23 family inet address 172.18.2.1/30
 set routing-instances vrinternet instance-type virtual-router
 set routing-instances vrinternet interface lt-0/0/0.43
@@ -104,12 +140,23 @@ set routing-instances vrinternet interface lo0.90
 set interface lt-0/0/0 unit 91 encapsulation ethernet peer-unit 92 family inet address 172.31.15.1/30
 set routing-instances vrinternet-host instance-type virtual-router
 set routing-instances vrinternet-host interface lt-0/0/0.91
-set routing-instances vrinternet-host routing-options static route 172.18.1.0/30 next-hop 172.31.15.2
-set interface lt-0/0/0 unit 91 encapsulation ethernet peer-unit 92 family inet address 172.31.15.1/30
-set routing-instances vrinternet-host instance-type virtual-router
-set routing-instances vrinternet-host interface lt-0/0/0.91
-set routing-instances vrinternet-host routing-options static route 172.18.2.0/30 next-hop 172.31.15.2
+set routing-instances vrinternet-host routing-options static route 0.0.0.0/0 next-hop 172.31.15.2
 set interface lo0 unit 91 family inet address 192.168.9.1/32
 set routing-instances vrinternet-host instance-type virtual-router
 set routing-instances vrinternet-host interface lo0.91
+set interface lt-0/0/0 unit 203 encapsulation ethernet peer-unit 200 family inet address 172.21.0.2/24
+set routing-instances vr101-neighbor instance-type virtual-router
+set routing-instances vr101-neighbor interface lt-0/0/0.203
+set routing-instances vr101-neighbor routing-options static route 0.0.0.0/0 next-hop 172.21.0.1
+set interface lt-0/0/0 unit 204 encapsulation ethernet peer-unit 201 family inet address 172.21.1.2/24
+set routing-instances vr101-neighbor instance-type virtual-router
+set routing-instances vr101-neighbor interface lt-0/0/0.204
+set routing-instances vr101-neighbor routing-options static route 0.0.0.0/0 next-hop 172.21.1.1
+set interface lt-0/0/0 unit 205 encapsulation ethernet peer-unit 202 family inet address 172.21.2.2/24
+set routing-instances vr101-neighbor instance-type virtual-router
+set routing-instances vr101-neighbor interface lt-0/0/0.205
+set routing-instances vr101-neighbor routing-options static route 0.0.0.0/0 next-hop 172.21.2.1
+set interface lo0 unit 200 family inet address 192.168.200.2/32
+set routing-instances vr101-neighbor instance-type virtual-router
+set routing-instances vr101-neighbor interface lo0.200
 
