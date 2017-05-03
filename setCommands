@@ -1,4 +1,6 @@
-set interface ge-0/0/0 unit 0 family inet address 10.210.14.131/26
+delete security policies
+set security forwarding-options family mpls mode packet-based
+set interface ge-0/0/0 unit 0 family inet dhcp
 set interface lt-0/0/0 unit 11 encapsulation ethernet peer-unit 21 family inet address 172.20.77.1/30
 set routing-instances vSRX-1 instance-type virtual-router
 set routing-instances vSRX-1 interface lt-0/0/0.11
@@ -18,7 +20,10 @@ set routing-instances vSRX-1 protocols ospf3 area 0.0.0.0 interface lt-0/0/0.12
 set interface lt-0/0/0 unit 13 encapsulation ethernet peer-unit 33 family inet address 172.18.1.2/30
 set routing-instances vSRX-1 instance-type virtual-router
 set routing-instances vSRX-1 interface lt-0/0/0.13
-set routing-options static route 172.18.1.0/30 next-hop 172.18.1.1
+set routing-instances vSRX-1 routing-options static route 172.31.15.0/30 next-hop 172.18.1.1
+set policy-options policy-statement exportStatic term 1 from protocol static
+set policy-options policy-statement exportStatic term 1 then accept
+set routing-instances vSRX-1 protocols ospf export exportStatic
 set interface lt-0/0/0 unit 14 encapsulation ethernet peer-unit 101 family inet address 172.20.101.1/24
 set routing-instances vSRX-1 instance-type virtual-router
 set routing-instances vSRX-1 interface lt-0/0/0.14
@@ -50,7 +55,10 @@ set routing-instances vSRX-2 protocols ospf3 area 0.0.0.0 interface lt-0/0/0.22
 set interface lt-0/0/0 unit 23 encapsulation ethernet peer-unit 43 family inet address 172.18.2.2/30
 set routing-instances vSRX-2 instance-type virtual-router
 set routing-instances vSRX-2 interface lt-0/0/0.23
-set routing-options static route 172.18.2.0/30 next-hop 172.18.2.1
+set routing-instances vSRX-2 routing-options static route 172.31.15.0/30 next-hop 172.18.2.1
+set policy-options policy-statement exportStatic term 1 from protocol static
+set policy-options policy-statement exportStatic term 1 then accept
+set routing-instances vSRX-2 protocols ospf export exportStatic
 set interface lt-0/0/0 unit 24 encapsulation ethernet peer-unit 201 family inet address 172.20.102.1/24
 set routing-instances vSRX-2 instance-type virtual-router
 set routing-instances vSRX-2 interface lt-0/0/0.24
@@ -82,22 +90,26 @@ set routing-instances vr102 protocols ospf area 0.0.0.0 interface lo0.201 passiv
 set interface lt-0/0/0 unit 33 encapsulation ethernet peer-unit 13 family inet address 172.18.1.1/30
 set routing-instances vrinternet instance-type virtual-router
 set routing-instances vrinternet interface lt-0/0/0.33
-set routing-options static route 172.18.1.0/30 next-hop 172.18.1.2
+set routing-instances vrinternet routing-options static route 172.20.101.0/24 next-hop 172.18.1.2
 set interface lt-0/0/0 unit 43 encapsulation ethernet peer-unit 23 family inet address 172.18.2.1/30
 set routing-instances vrinternet instance-type virtual-router
 set routing-instances vrinternet interface lt-0/0/0.43
-set routing-options static route 172.18.2.0/30 next-hop 172.18.2.2
+set routing-instances vrinternet routing-options static route 172.20.102.0/24 next-hop 172.18.2.2
 set interface lt-0/0/0 unit 92 encapsulation ethernet peer-unit 91 family inet address 172.31.15.2/30
 set routing-instances vrinternet instance-type virtual-router
 set routing-instances vrinternet interface lt-0/0/0.92
-set routing-options static route 172.31.15.0/30 next-hop 172.31.15.1
 set interface lo0 unit 90 family inet address 192.168.9.2/32
 set routing-instances vrinternet instance-type virtual-router
 set routing-instances vrinternet interface lo0.90
 set interface lt-0/0/0 unit 91 encapsulation ethernet peer-unit 92 family inet address 172.31.15.1/30
 set routing-instances vrinternet-host instance-type virtual-router
 set routing-instances vrinternet-host interface lt-0/0/0.91
-set routing-options static route 172.31.15.0/30 next-hop 172.31.15.2
+set routing-instances vrinternet-host routing-options static route 172.18.1.0/30 next-hop 172.31.15.2
+set interface lt-0/0/0 unit 91 encapsulation ethernet peer-unit 92 family inet address 172.31.15.1/30
+set routing-instances vrinternet-host instance-type virtual-router
+set routing-instances vrinternet-host interface lt-0/0/0.91
+set routing-instances vrinternet-host routing-options static route 172.18.2.0/30 next-hop 172.31.15.2
 set interface lo0 unit 91 family inet address 192.168.9.1/32
 set routing-instances vrinternet-host instance-type virtual-router
 set routing-instances vrinternet-host interface lo0.91
+

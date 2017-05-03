@@ -1,0 +1,362 @@
+## Last changed: 2017-05-02 10:34:23 UTC
+version 12.1X47-D15.4;
+system {
+    root-authentication {
+        encrypted-password "$1$bwZK.whK$znPQMuBlZIxwKisM2ddwS."; ## SECRET-DATA
+    }
+    services {
+        ssh;
+        web-management {
+            http {
+                interface ge-0/0/0.0;
+            }
+        }
+    }
+    syslog {
+        user * {
+            any emergency;
+        }
+        file messages {
+            any any;
+            authorization info;
+        }
+        file interactive-commands {
+            interactive-commands any;   
+        }                               
+    }
+    license {
+        autoupdate {
+            url https://ae1.juniper.net/junos/key_retrieval;
+        }
+    }
+}
+interfaces {
+    ge-0/0/0 {
+        unit 0 {
+            family inet {
+                dhcp;
+            }
+        }
+    }
+    lt-0/0/0 {
+        unit 11 {
+            encapsulation ethernet;
+            peer-unit 21;
+            family inet {
+                address 172.20.77.1/30;
+            }
+            family inet6 {
+                address fdaa:dead:beef:1::0/127;
+            }
+        }
+        unit 12 {
+            encapsulation ethernet;
+            peer-unit 22;
+            family inet {
+                address 172.20.66.1/30;
+            }
+            family inet6 {
+                address fdaa:dead:beef:2::0/127;
+            }
+        }
+        unit 13 {
+            encapsulation ethernet;
+            peer-unit 33;
+            family inet {
+                address 172.18.1.2/30;
+            }
+        }
+        unit 14 {
+            encapsulation ethernet;
+            peer-unit 101;
+            family inet {
+                address 172.20.101.1/24;
+            }
+        }
+        unit 21 {
+            encapsulation ethernet;
+            peer-unit 11;
+            family inet {
+                address 172.20.77.2/30;
+            }
+            family inet6 {
+                address fdaa:dead:beef:1::1/127;
+            }
+        }
+        unit 22 {
+            encapsulation ethernet;
+            peer-unit 12;
+            family inet {
+                address 172.20.66.2/30;
+            }                           
+            family inet6 {
+                address fdaa:dead:beef:2::1/127;
+            }
+        }
+        unit 23 {
+            encapsulation ethernet;
+            peer-unit 43;
+            family inet {
+                address 172.18.2.2/30;
+            }
+        }
+        unit 24 {
+            encapsulation ethernet;
+            peer-unit 201;
+            family inet {
+                address 172.20.102.1/24;
+            }
+        }
+        unit 33 {
+            encapsulation ethernet;
+            peer-unit 13;
+            family inet {
+                address 172.18.1.1/30;
+            }
+        }
+        unit 43 {
+            encapsulation ethernet;
+            peer-unit 23;
+            family inet {
+                address 172.18.2.1/30;
+            }
+        }
+        unit 91 {
+            encapsulation ethernet;
+            peer-unit 92;
+            family inet {
+                address 172.31.15.1/30;
+            }
+        }
+        unit 92 {
+            encapsulation ethernet;
+            peer-unit 91;
+            family inet {
+                address 172.31.15.2/30;
+            }
+        }
+        unit 101 {
+            encapsulation ethernet;
+            peer-unit 14;
+            family inet {
+                address 172.20.101.10/24;
+            }
+        }
+        unit 201 {
+            encapsulation ethernet;
+            peer-unit 24;
+            family inet {
+                address 172.20.102.10/24;
+            }
+        }
+    }
+    lo0 {
+        unit 1 {
+            family inet {
+                address 192.168.1.1/32;
+            }                           
+            family inet6 {
+                address fdaa:dead:beef:9::1/128;
+            }
+        }
+        unit 2 {
+            family inet {
+                address 192.168.2.1/32;
+            }
+            family inet6 {
+                address fdaa:dead:beef:9::2/128;
+            }
+        }
+        unit 90 {
+            family inet {
+                address 192.168.9.2/32;
+            }
+        }
+        unit 91 {
+            family inet {
+                address 192.168.9.1/32;
+            }
+        }
+        unit 101 {
+            family inet {
+                address 192.168.1.10/32;
+            }
+        }
+        unit 201 {
+            family inet {
+                address 192.168.2.10/32;
+            }
+        }
+    }
+}
+security {
+    screen {
+        ids-option untrust-screen {
+            icmp {
+                ping-death;
+            }
+            ip {
+                source-route-option;
+                tear-drop;
+            }
+            tcp {
+                syn-flood {
+                    alarm-threshold 1024;
+                    attack-threshold 200;
+                    source-threshold 1024;
+                    destination-threshold 2048;
+                    queue-size 2000; ## Warning: 'queue-size' is deprecated
+                    timeout 20;
+                }
+                land;
+            }
+        }
+    }
+    policies;
+    zones {
+        security-zone trust {
+            tcp-rst;
+        }
+        security-zone untrust {
+            screen untrust-screen;
+            interfaces {
+                ge-0/0/0.0 {            
+                    host-inbound-traffic {
+                        system-services {
+                            http;
+                            https;
+                            ssh;
+                            telnet;
+                            dhcp;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+routing-instances {
+    vSRX-1 {
+        instance-type virtual-router;
+        interface lt-0/0/0.11;
+        interface lt-0/0/0.12;
+        interface lt-0/0/0.13;
+        interface lt-0/0/0.14;
+        interface lo0.1;
+        routing-options {
+            static {
+                route 172.31.15.0/30 next-hop 172.18.1.1;
+            }
+        }
+        protocols {
+            ospf {
+                area 0.0.0.0 {
+                    interface lt-0/0/0.11;
+                    interface lt-0/0/0.12;
+                    interface lt-0/0/0.14;
+                    interface lo0.1 {
+                        passive;
+                    }
+                }
+            }
+            ospf3 {
+                area 0.0.0.0 {
+                    interface lt-0/0/0.11;
+                    interface lt-0/0/0.12;
+                    interface lo0.1 {
+                        passive;
+                    }
+                }
+            }
+        }
+    }
+    vSRX-2 {
+        instance-type virtual-router;
+        interface lt-0/0/0.21;
+        interface lt-0/0/0.22;
+        interface lt-0/0/0.23;
+        interface lt-0/0/0.24;
+        interface lo0.2;
+        routing-options {
+            static {
+                route 172.31.15.0/30 next-hop 172.18.2.1;
+            }
+        }
+        protocols {
+            ospf {
+                area 0.0.0.0 {
+                    interface lt-0/0/0.21;
+                    interface lt-0/0/0.22;
+                    interface lt-0/0/0.24;
+                    interface lo0.2 {
+                        passive;
+                    }
+                }
+            }
+            ospf3 {
+                area 0.0.0.0 {
+                    interface lt-0/0/0.21;
+                    interface lt-0/0/0.22;
+                    interface lo0.2 {
+                        passive;
+                    }
+                }
+            }
+        }
+    }
+    vr101 {
+        instance-type virtual-router;
+        interface lt-0/0/0.101;
+        interface lo0.101;
+        protocols {
+            ospf {
+                area 0.0.0.0 {
+                    interface lt-0/0/0.101;
+                    interface lo0.101 {
+                        passive;
+                    }
+                }
+            }
+        }
+    }
+    vr102 {
+        instance-type virtual-router;
+        interface lt-0/0/0.201;
+        interface lo0.201;
+        protocols {
+            ospf {
+                area 0.0.0.0 {
+                    interface lt-0/0/0.201;
+                    interface lo0.201 {
+                        passive;
+                    }
+                }
+            }
+        }
+    }
+    vrinternet {
+        instance-type virtual-router;
+        interface lt-0/0/0.33;
+        interface lt-0/0/0.43;
+        interface lt-0/0/0.92;
+        interface lo0.90;
+        routing-options {
+            static {
+                route 172.20.101.0/24 next-hop 172.18.1.2;
+                route 172.20.102.0/24 next-hop 172.18.2.2;
+            }
+        }
+    }
+    vrinternet-host {
+        instance-type virtual-router;
+        interface lt-0/0/0.91;
+        interface lo0.91;
+        routing-options {
+            static {                    
+                route 172.18.1.0/30 next-hop 172.31.15.2;
+                route 172.18.2.0/30 next-hop 172.31.15.2;
+            }
+        }
+    }
+}
+
