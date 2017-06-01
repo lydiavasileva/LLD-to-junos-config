@@ -1,0 +1,4 @@
+Virtual Router,Instance Type,Interface,Unit,IP Address,Mask,Family,Encapsulation,Peer Interface,Peer Unit,To VR,Routing Static Network,Routing Static Next-Hop
+,,,,,,,,,,,,
+vSRX-1,virtual-router,lt-0/0/0,1,172.1.1.1,30,inet,ethernet,lt-0/0/0,2,vSRX-1,172.1.1.0/30,172.1.1.2
+vSRX-2,virtual-router,lt-0/0/0,2,172.1.1.2,30,inet,ethernet,lt-0/0/0,1,vSRX-2,172.1.1.0/30,172.1.1.1
